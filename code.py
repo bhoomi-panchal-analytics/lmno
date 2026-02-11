@@ -43,7 +43,8 @@ X_train, X_test, y_train, y_test = train_test_split(
 # -----------------------------
 
 model = Sequential()
-model.add(Dense(16, activation='relu', input_dim=5))
+model.add(Dense(16, activation='relu', input_shape=(5,)))
+
 model.add(Dense(8, activation='relu'))
 model.add(Dense(3, activation='softmax'))
 
