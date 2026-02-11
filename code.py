@@ -45,17 +45,23 @@ X_train, X_test, y_train, y_test = train_test_split(
 # 3. Build ANN Model
 # -----------------------------
 
-model = Sequential()
-model.add(Dense(16, activation='relu', input_shape=(5,)))
+@st.cache_resource
+def train_model():
+    model = Sequential()
+    model.add(Dense(16, activation='relu', input_shape=(5,)))
+    model.add(Dense(8, activation='relu'))
+    model.add(Dense(3, activation='softmax'))
 
-model.add(Dense(8, activation='relu'))
-model.add(Dense(3, activation='softmax'))
+    model.compile(
+        loss='sparse_categorical_crossentropy',
+        optimizer='adam',
+        metrics=['accuracy']
+    )
 
-model.compile(loss='sparse_categorical_crossentropy',
-              optimizer='adam',
-              metrics=['accuracy'])
+    model.fit(X_train, y_train, epochs=100, verbose=0)
+    return model
 
-model.fit(X_train, y_train, epochs=100, verbose=0)
+model = train_model()
 
 # -----------------------------
 # 4. Streamlit UI
